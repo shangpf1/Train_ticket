@@ -18,20 +18,21 @@ Example:
 
 from docopt import docopt
 import requests
-from stations import stations
+import stations
+from prettytable import PrettyTable
 
 class Train_tickiets(object):
     def printTrainInfo(self):
         arguments = docopt(__doc__)
-        print(arguments['<date>'],arguments['<from>'],arguments['<from>'])
+        print(arguments['<date>'],arguments['<from>'],arguments['<to>'])
         date = arguments['<date>']
-        fromstation = stations.get(arguments['<from>'])
-        tostation = stations.get(arguments['<to>'])
-        url = 'https://kyfw.12306.cn/otn/leftTicket/queryZ?leftTicketDTO.train_date={}&leftTicketDTO.from_station={]&leftTicketDTO.to_station={}&purpose_codes=ADULT'.format(date,fromstation,tostation)
+        fromstation = stations.getCityName(arguments['<from>'])
+        tostation = stations.getCode(arguments['<to>'])
+        url = 'https://kyfw.12306.cn/otn/leftTicket/queryZ?leftTicketDTO.train_date={}&leftTicketDTO.from_station={}&leftTicketDTO.to_station={}&purpose_codes=ADULT'.format(date,fromstation,tostation)
         #url = 'https://kyfw.12306.cn/otn/leftTicket/queryZ?leftTicketDTO.train_date={}&leftTicketDTO.from_station={}&leftTicketDTO.to_station={}&purpose_codes=ADULT'.format(date,fromstation,tostation)
         r = requests.get(url)
         print(url)
-        print(r.json())
+        #print(r.json())
         allresults = r.json()
         allTickets = allresults['data']['result']
         print(len(allTickets),allTickets)
@@ -49,6 +50,15 @@ class Train_tickiets(object):
             rows.append(trainrow)
         return rows
 
+    def printtable(self,rows):
+        info = "车次 出发站 到达站 出发时间 到达时间 历时 商务座 特等座 一等座 二等座 高级 软卧 动卧 硬卧 软座 硬座 无座" 
 
-if __name__ == '_main_':
+        x = PrettyTable(info)
+        info = info.split(" ")
+        for row in rows:
+             x.add_row(trainrow)
+       
+        print(x.get_string())
+
+if __name__ == '__main__':
     Train_tickiets().printTrainInfo()
