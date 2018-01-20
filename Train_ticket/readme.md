@@ -12,7 +12,7 @@ pip install r requirements.txt
 python tickiets.py 上海 北京 2018-01-27
 '''
 
-3.运行的效果
+3.运行的效果(必须进入虚拟环境中运行 .\Scripts\activate)
 '''
 注：下面的url每天都可能会变，运行不出的话可以重新获取接口地址
 https://kyfw.12306.cn/otn/leftTicket/queryZ?leftTicketDTO.train_date=2018-01-27&leftTicketDTO.from_station=SHH&leftTicketDTO.to_station=BJP&purpose_codes=ADULT
