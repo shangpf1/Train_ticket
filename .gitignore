@@ -99,3 +99,10 @@ ENV/
 
 # mypy
 .mypy_cache/
+
+
+__pycache__
+Include
+Lib
+Scripts
+tcl
